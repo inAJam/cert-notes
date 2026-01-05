@@ -4,10 +4,10 @@ Why windows?
 * Massive market share
 * Threat surface is fragmented due to the various versions of windows
 * Built in C so vulnerable to buffer overflows, arbitrary code execution, etc.
-* Require a proavtive implmentation of security practices to run securely
+* Requires a proactive implmentation of security practices to run securely
 * Given the fragmented nature, patches are slow
-* Comapred to publishing new versions, companies migrate slower to newer versions making them vulnerable
-* Vulnerable to cross platform attacks like SQL injection and also physical like theft
+* Compared to publishing new versions, companies migrate slower to newer versions making them vulnerable
+* Vulnerable to cross platform attacks like SQL injection and also physical attacks like theft
 
 Types of vulnerabilities:
 * Information disclosure - allows attacker to access confidential data
@@ -74,16 +74,54 @@ Types of vulnerabilities:
 ---
 
 ### Searching for exploits
-* Enumerate all services running on the system
-* use `searchsploit` and then pipe for **msf** ones
+* Enumerate all services running on the system, then target a particular service and search for an exploit.
+* `searchsploit` can be used to find exploits. It returns all possible exploits including ones not found in `msf`.
+  * Will need to be filtered for `msf` exploits.
 * Some exploit modules also come with scanner modules to see if the target is vulnerable to the given module
-* Also, need to set the post screen from linux to windows
-* `metasploit-autopwn`: this plugin can be used to automatically find the list of exploits but will need further pruning
+  * Need to be careful about the different options while setting up, since the preset ones might even be for linux systems. 
+* Can alo use external plugins like `metasploit-autopwn`
+* `metasploit-autopwn`: this plugin can be used to automatically find the list of exploits but will need further pruning like finding the target operating system, the specific version of the application, etc.
 * `analyze` command can also do this and then store the results which can be fetched with `vulns`
-* `hydra` can be used to bruteforce passwords ans usernames
+* `hydra` can be used to bruteforce passwords and usernames
 * `davtest` is a WebDAV testing tool used to check whether a WebDAV-enabled web server allows us to upload and execute files
 * `cadaver` is a command-line WebDAV client for Unix. It supports file upload, download, on-screen display, namespace operations (move/copy), collection creation and deletion, and locking operations.
 
 
-### EternalBlue exploit
+### EternalBlue exploit: SMBv1 Vulnerability
+This is the name given to a collection of windows vulnerabilities and exploits that allow attackers to remotely execute arbitrary code and gain access to a windows system. This exploit is feasible against multiple versions of windows running SMBv1.
+* Developed by NSA and was later leaked to the public in 2017
+* It allows attackers to send specially crafted packets that results in execution of arbitrary code which can spawn reverse shells
 * Was used in the WannaCry ransomware attacks to spread to other computers
+* It even has **metasploit** modules and **nmap** scripts to check if a system is exploitable and even a **metasploit** module for the exploit itself.
+
+For manual exploitation the tool **AutoBlue-MS17-010** 
+
+
+### BlueKeep exploit: Windows RDP vulnerability
+This exploit takes advantage of a vulnerability of the windows RDP protocol, allowing attackers to gain access to a chunk of kernel memory consequently allowing them to remotely execute arbitrary code at the system level without authentication.  
+* Was made public by microsoft
+* It affects multiple version of windows
+
+
+### Pass-The-Hash attack
+It's an exploitation technique that involves capturing or harvesting **NTLM hashes** or clear-text passwords and utilizing them to authenticate with the target legitimately. 
+**NTLM stands for NT LAN Manager.**
+It is a Windows authentication protocol used to verify a user’s identity on a network. NTLM is a challenge–response authentication protocol used by Windows that allows a user to authenticate without sending their password over the network.  
+
+How NTLM works: 
+* Client → Server
+  * **“I want to authenticate as USER”**
+* Server → Client
+  * **Sends a random challenge**
+* Client
+  * **Encrypts the challenge using the NTLM hash of the password**
+* Client → Server 
+  * **Sends the encrypted response**
+* Server
+  * **Verifies the response using its stored hash**
+
+Some of the features of this exploit:   
+* Multiple tools can be used to facilitate this attack.
+  * Metasploit modules: PsExec
+  * Crackmapexec
+* It allows us to obtain access via legitimate credentials

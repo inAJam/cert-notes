@@ -1,7 +1,7 @@
 # Enumeration
 
 To gather additional, more specific details/information about the services running on the network.
-* service enumaration
+* service enumeration
 * user enumeration
 * share enumeration
 
@@ -25,6 +25,6 @@ This modules can be used during information gathering phase as well as post expl
 * `g` can be used to set global variables
   * `setg RHOSTS`
 * `info` can give more information on the module
-* `unset` to remove any og the settings of the module
+* `unset` to remove any of the settings of the module
 * `loot`, `creds` to find the data we have found via **msf**
 * `sessions` are created for all successful exploitation
