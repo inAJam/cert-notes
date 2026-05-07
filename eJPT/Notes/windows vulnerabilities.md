@@ -125,3 +125,41 @@ Some of the features of this exploit:
   * Metasploit modules: PsExec
   * Crackmapexec
 * It allows us to obtain access via legitimate credentials
+
+
+### Windows Access tokens: impersonation attack
+* Core element of the authentication process
+* Created and managed by the Local Security Authority Subsystem Service (LSASS)
+* When we login, the access token is created by `winlogon.exe`
+* All child processes started by the user will run with a copy of this token attached, sharing the same privileges
+* Typically teo types of access tokens:
+  * Impersonate level: created as a result of a non-interactive login, can be used to  impersonate only on the local system
+  * delegate level: created as a result of interactive login like RDP, can be used to impersonate on any system
+* Following privileges are required for a successful impersonation attack
+  * SeAssignPrimaryToken: allows a user to impersonate tokens
+  * SeCreateToken: allows to create arbitrary tokens with administrative privileges
+  * SeImpersonatePrivilege: allows a user to create a process under the security context of another user typically with admin privileges
+* Meterpreter incognito module is used for this
+  * getprivs gives us the list of user privileges
+
+
+### Windows Password hashes
+* Authentication and verifiation is maintained by the LSA(Local Security Authority)
+* WIndows used to use two types of hashes:
+  * LM: disabled from Vista onwards. Is case insensitive
+  * NTLM: when password is created the password is disposed and the MD4 hash is stored.
+* Stored locally in the SAM(security accounts manager) database
+  * Can't be copied while the OS is running
+  * NT kernel keeps this file locked
+* Unattended windows setup utility is used to automate the mass installation/deployment of windows on systems
+  * It uses config files. If these files remain on the system, they can be used to reveal user account credentials
+  * Mimikatz, a windows post-exploitation tool that allows for the extraction of clear-text passwords, hashes and Kerberos tickets from memory.
+    * Requires elevated privileges
+
+### SNMP(Simple Network Management Protocol) Enumeration
+* A standard application-layer protocol for monitoring and managing devices on IP networks, 
+* Allows administrators to collect information about device health, performance, and status from a central system, enabling efficient control over routers, switches, servers, and printers, regardless of their manufacturer
+* runs on UDP
+
+### SMB Relay attack
+* capturing authentication and then relaying them via a man-in-the-middle attack
