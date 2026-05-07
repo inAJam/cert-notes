@@ -166,7 +166,7 @@ Reconnecting with SMB1 for workgroup listing.
 
 ┌──(root㉿INE)-[~]
 ```
-We quickly notice that we can easily see the sahres available. This shows that a null session is allowed.
+We quickly notice that we can easily see the shares available. This shows that a null session is allowed.
 Answer: **Anonymous connection is allowed**
 
 ### Flag 9: Using rpcclient determine whether anonymous connection (null session) is allowed on the samba server or not

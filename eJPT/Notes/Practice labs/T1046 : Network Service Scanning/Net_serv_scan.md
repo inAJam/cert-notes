@@ -1,10 +1,10 @@
 # T1046 : Network Service Scanning
 
 ### Information
-**Start point:** `demo1.ine.local`
-**No. of machines running:** 2
-**Vulnerability:** XODA File Upload Vulnerability
-**Metasploit module:** exploit/unix/webapp/xoda_file_upload
+**Start point:** `demo1.ine.local`  
+**No. of machines running:** 2  
+**Vulnerability:** XODA File Upload Vulnerability  
+**Metasploit module:** exploit/unix/webapp/xoda_file_upload  
 
 ## Objective:
 - Identify the number of ports running on the second target machine.
@@ -158,7 +158,7 @@ Exploit target:
 
 View the full module info with the info, or info -d command.
 ```
-We set the **RHOSTS** and the **TARGETURI** and then run it.
+We set the **RHOSTS**, the **TARGETURI** and the **LHOSTS**  and then run it.
 ```bash
 msf6 exploit(unix/webapp/xoda_file_upload) > set RHOSTS 192.241.27.3
 RHOSTS => 192.241.27.3
@@ -218,7 +218,9 @@ lo        Link encap:Local Loopback
 
 www-data@demo1:/app/files$ 
 ```
-We can see that the IP on `eth0` is the IP we used to connect to the machine and the ip on `eth1` is `192.90.106.2` so the ip of the second target machine should be `192.90.106.3`. Let's background our current session and run an auxiliary scanner to find the number of ports on the second machine.
+We can see that the IP on `eth0` is the IP we used to connect to the machine and the ip on `eth1` is `192.90.106.2` and given the **/24** subnet and common lab conventions, the adjacent host is likely `192.90.106.3`, which should be verified via ARP or ping. 
+We next add this route via `autoroute -s <IP>` on the meterpreter shell.  
+Afterwards let's background our current session and run an auxiliary scanner to find the number of ports on the second machine.  
 ```bash
 msf6 exploit(unix/webapp/xoda_file_upload) > search portscan
 
