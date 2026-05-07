@@ -93,7 +93,7 @@ Disallow: /secure
 [*] Scanned 1 of 1 hosts (100% complete)
 [*] Auxiliary module execution completed
 ```
-We find two disallowed directories **data** and **secure**. We see if we can find any other hidden folders.
+We find two disallowed directories **data** and **secure**. We try to see if we can find any other hidden folders.
 ```bash
 msf6 auxiliary(scanner/http/brute_dirs) > run
 
@@ -124,7 +124,7 @@ msf6 auxiliary(scanner/http/dir_scanner) > run
 [*] Auxiliary module execution completed
 ```
 We see that while it found more directories due to the new wordlist, the status code shows all the directories as 404. This is because the server is using fake 404s (returning 404 even for real directories). This is messing up with the scanner data.  
-Let's now try **dir_listing** on the **data** path.
+Let's now try **dir_listing** on the **data** path to find Directory listing vulnerabilities.
 ```bash
 msf6 auxiliary(scanner/http/dir_listing) > set PATH /data
 PATH => /data
